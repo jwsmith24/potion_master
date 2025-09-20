@@ -1,0 +1,16 @@
+
+services:
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: potions_db
+    ports:
+      - "5431:5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+volumes:
+  pg_data:
