@@ -3,7 +3,9 @@ package mil.swf.army.potion_master.controllers;
 import mil.swf.army.potion_master.entities.Alchemist;
 import mil.swf.army.potion_master.entities.dtos.core.AlchemistDto;
 import mil.swf.army.potion_master.entities.dtos.core.AlchemistMapper;
+import mil.swf.army.potion_master.entities.dtos.core.InventoryDto;
 import mil.swf.army.potion_master.entities.dtos.http.CreateAlchemistRequest;
+import mil.swf.army.potion_master.entities.dtos.http.UpdateAlchemistRequest;
 import mil.swf.army.potion_master.services.AlchemistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,28 +26,35 @@ public class AlchemistController {
 
     @GetMapping()
     public ResponseEntity<List<AlchemistDto>> getAllAlchemists() {
+        return ResponseEntity.ok(alchemistService.getAll());
+    }
 
-        List<Alchemist> alchemists = alchemistService.getAll();
+    @GetMapping("/{id}")
+    public ResponseEntity<AlchemistDto> getAlchemistById(@PathVariable Long id) {
+        return ResponseEntity.ok(alchemistService.getById(id));
+    }
 
-        List<AlchemistDto> dtoList = alchemists
-                .stream()
-                .map(AlchemistMapper::toDto)
-                .toList();
+    @GetMapping("/{id}/inventory")
+    public ResponseEntity<InventoryDto> getInventory(@PathVariable Long id) {
+        return ResponseEntity.ok(alchemistService.getInventory(id));
 
-        return ResponseEntity.ok(dtoList);
     }
 
     @PostMapping()
     public ResponseEntity<AlchemistDto> addNewAlchemist(@RequestBody CreateAlchemistRequest request) {
-        Alchemist entity = new Alchemist();
-        entity.setName(request.name());
-        entity.setGold(request.gold());
 
-       Alchemist created = alchemistService.createAlchemist(entity);
+       AlchemistDto created = alchemistService.createAlchemist(request);
 
        return ResponseEntity
-               .created(URI.create("/api/v1/alchemist/" + created.getId()))
-               .body(AlchemistMapper.toDto(created));
+               .created(URI.create("/api/v1/alchemist/" + created.id()))
+               .body(created);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<AlchemistDto> updateAlchemist(@PathVariable Long id, @RequestBody UpdateAlchemistRequest request) {
+        AlchemistDto updated = alchemistService.updateAlchemist(id, request);
+
+        return ResponseEntity.ok(updated);
     }
 
 

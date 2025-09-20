@@ -2,6 +2,7 @@ package mil.swf.army.potion_master.entities.dtos.core;
 
 import mil.swf.army.potion_master.entities.Alchemist;
 import mil.swf.army.potion_master.entities.Inventory;
+import mil.swf.army.potion_master.entities.dtos.http.CreateAlchemistRequest;
 
 import java.util.List;
 
@@ -11,13 +12,18 @@ public class AlchemistMapper {
         return new AlchemistDto(
                 alchemist.getId(),
                 alchemist.getName(),
-                alchemist.getGold(),
-                toDto(alchemist.getInventory())
-
+                alchemist.getGold()
         );
     }
 
-    private static InventoryDto toDto(Inventory inventory) {
+    public static Alchemist toEntity(CreateAlchemistRequest dto) {
+        return Alchemist.builder()
+                .name(dto.name())
+                .gold(dto.gold())
+                .build();
+    }
+
+    public static InventoryDto toDto(Inventory inventory) {
         if (inventory == null) return null;
 
         List<InventoryIngredientDto> ingredients = inventory.getIngredientList()

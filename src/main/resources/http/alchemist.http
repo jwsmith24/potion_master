@@ -6,6 +6,22 @@ POST http://localhost:8080/api/v1/alchemist
 Content-Type: application/json
 
 {
-  "name": "Craig",
-  "gold": 999
+  "name": "Anna",
+  "gold": 200
 }
+
+###
+GET http://localhost:8080/api/v1/alchemist/12
+
+###
+
+PATCH http://localhost:8080/api/v1/alchemist/12
+Content-Type: application/json
+
+{
+  "name": "Anna",
+  "gold": 3500
+}
+
+### GET inventory
+GET http://localhost:8080/api/v1/alchemist/7/inventory
