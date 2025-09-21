@@ -1,11 +1,10 @@
 package mil.swf.army.potion_master.controllers;
 
-import mil.swf.army.potion_master.entities.Alchemist;
 import mil.swf.army.potion_master.entities.dtos.core.AlchemistDto;
-import mil.swf.army.potion_master.entities.dtos.core.AlchemistMapper;
 import mil.swf.army.potion_master.entities.dtos.core.InventoryDto;
 import mil.swf.army.potion_master.entities.dtos.http.CreateAlchemistRequest;
 import mil.swf.army.potion_master.entities.dtos.http.UpdateAlchemistRequest;
+import mil.swf.army.potion_master.entities.dtos.http.UpdateIngredientQuantityRequest;
 import mil.swf.army.potion_master.services.AlchemistService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +54,12 @@ public class AlchemistController {
         AlchemistDto updated = alchemistService.updateAlchemist(id, request);
 
         return ResponseEntity.ok(updated);
+    }
+
+    @PatchMapping("/{alchemistId}/inventory/ingredients")
+    public ResponseEntity<InventoryDto> updateIngredientQuantity(@PathVariable Long alchemistId, @RequestBody UpdateIngredientQuantityRequest request) {
+        return ResponseEntity.ok(alchemistService
+                .updateIngredientQuantity(alchemistId, request.ingredientId(), request.quantity()));
     }
 
 

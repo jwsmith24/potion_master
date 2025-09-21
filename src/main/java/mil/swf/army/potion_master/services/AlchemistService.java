@@ -79,4 +79,31 @@ public class AlchemistService {
 
         return AlchemistMapper.toDto(alchemist.getInventory());
     }
+
+    public InventoryDto updateIngredientQuantity(Long alchemistId, Long ingredientId, int quantity) {
+        Alchemist alchemist = alchemistRepository.findById(alchemistId)
+                .orElseThrow(() -> new RuntimeException("Alchemist with id: " + alchemistId + " not found."));
+
+        Inventory inventory = alchemist.getInventory();
+        if (inventory == null) {
+            throw new IllegalStateException("Alchemist is missing inventory");
+        }
+
+        boolean found = false;
+        for (var inventoryIngredient : inventory.getIngredientList()) {
+            if (inventoryIngredient.getIngredient().getId().equals(ingredientId)) {
+                inventoryIngredient.setQuantity(quantity);
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            throw new RuntimeException("Ingredient with id: " + ingredientId + " not found in inventory.");
+        }
+
+        alchemistRepository.save(alchemist);
+        return AlchemistMapper.toDto(inventory);
+    }
+
 }

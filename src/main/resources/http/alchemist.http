@@ -25,3 +25,12 @@ Content-Type: application/json
 
 ### GET inventory
 GET http://localhost:8080/api/v1/alchemist/7/inventory
+
+### Update qty
+PATCH http://localhost:8080/api/v1/alchemist/7/inventory/ingredients
+Content-Type: application/json
+
+{
+  "ingredientId": 9,
+  "quantity": 44
+}

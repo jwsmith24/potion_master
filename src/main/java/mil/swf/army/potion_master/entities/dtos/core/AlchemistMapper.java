@@ -29,7 +29,7 @@ public class AlchemistMapper {
         List<InventoryIngredientDto> ingredients = inventory.getIngredientList()
                 .stream()
                 .map(inventoryIngredient -> new InventoryIngredientDto(
-                        inventoryIngredient.getId(),
+                        inventoryIngredient.getIngredient().getId(),
                         inventoryIngredient.getIngredient().getName(),
                         inventoryIngredient.getQuantity()
                 )).toList();
